@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: "8.2"
+          php-version: "8.0"
 
       - name: Install SSH key
         run: |
@@ -35,10 +35,10 @@ jobs:
             cd domains
             cd srke.co.in
             cd public_html
-            git pull origin
+            git pull origin master
             php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
             php composer-setup.php
             php -r "unlink('composer-setup.php');"
-            php composer.phar update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+            php composer.phar update
             php -r "unlink('composer.phar');"
             php artisan optimize
