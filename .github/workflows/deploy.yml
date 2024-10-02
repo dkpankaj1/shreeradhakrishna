@@ -35,6 +35,7 @@ jobs:
             cd domains
             cd srke.co.in
             cd public_html
+            git restore .
             git pull origin
             php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
             php composer-setup.php
