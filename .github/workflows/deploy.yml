@@ -1,4 +1,4 @@
-name: HostingerDeploy
+name: Hostinger_Deploy
 
 on:
   push:
