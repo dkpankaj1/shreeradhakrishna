@@ -2,10 +2,9 @@ name: Hostinger_Deploy
 
 on:
   push:
-    branches: [ "msater" ]
+    branches: ["msater"]
   pull_request:
-    branches: [ "msater" ]
-
+    branches: ["msater"]
 
 jobs:
   deploy:
@@ -41,8 +40,5 @@ jobs:
             php composer-setup.php
             php -r "unlink('composer-setup.php');"
             php composer.phar update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+            php -r "unlink('composer.phar');"
             php artisan optimize
-
-      - name: Copy Build Files to Target Server
-        run: |
-          rsync -r -e "ssh -p ${{ secrets.REMOTE_PORT }}" ${{ github.workspace }}/public/build/ ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_HOST }}:~/domains/cortexitsolution.com/public_html/measypro/public/build/
