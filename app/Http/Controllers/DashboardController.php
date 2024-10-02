@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use App\Models\Purchase;
+use App\Services\BhashSmsService;
 use DB;
 use Illuminate\Http\Request;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -43,9 +44,13 @@ class DashboardController extends Controller
             ->orderBy('rewards', 'DESC')
             ->get();
 
-        // dd($r);
-
-        return view('dashboard', ['customers' => Customer::latest()->take(5)->get(), 'rewards' => $r, 'saledata' => $data]);
+        $smsBalance = BhashSmsService::checkSMSBalance();
+        return view('dashboard', [
+            'customers' => Customer::latest()->take(5)->get(),
+            'rewards' => $r,
+            'saledata' => $data,
+            "smsBalance" => $smsBalance
+        ]);
     }
 
     public function exportTopReworderCustomer()

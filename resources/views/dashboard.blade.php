@@ -76,8 +76,8 @@
                     <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">Total Payment</span>
-                        <span class="info-box-number">{{ \App\Models\Redeem::sum('pay_amt') }}</span>
+                        <span class="info-box-text">SMS Balance</span>
+                        <span class="info-box-number">{{$smsBalance}}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>

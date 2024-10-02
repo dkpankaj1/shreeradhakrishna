@@ -40,4 +40,22 @@ class BhashSmsService
             return false;
         }
     }
+    public static function checkSMSBalance()
+    {
+        $balance = 0;
+        try {
+            $url = 'http://bhashsms.com/api/checkbalance.php';
+
+            $response = Http::get($url, [
+                "user" => config('services.bhashsms.user'),
+                "pass" => config('services.bhashsms.pass'),
+            ]);
+            if ($response->successful()) {
+                $balance = $response->body();
+            }
+        } catch (\Exception $e) {
+            Log::error("Exception occurred while Getting SMS Balance");
+        }
+        return $balance;
+    }
 }
