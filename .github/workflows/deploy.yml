@@ -2,9 +2,13 @@ name: Hostinger_Deploy
 
 on:
   push:
-    branches: [master]
+    branches: [ "msater" ]
+  pull_request:
+    branches: [ "msater" ]
+
+
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: shivammathur/setup-php@v2
@@ -36,7 +40,7 @@ jobs:
             php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
             php composer-setup.php
             php -r "unlink('composer-setup.php');"
-            php composer.phar install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+            php composer.phar update -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
             php artisan optimize
 
       - name: Copy Build Files to Target Server
