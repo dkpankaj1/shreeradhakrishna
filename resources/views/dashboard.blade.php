@@ -60,7 +60,9 @@
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+                    <span class="info-box-icon bg-warning">
+                        <i class="far fa-money-bill-alt"></i>
+                    </span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">Total Reward</span>
@@ -73,11 +75,13 @@
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-12">
                 <div class="info-box">
-                    <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+                    <span class="info-box-icon bg-danger">
+                        <i class="far fa-comment-alt"></i>
+                    </span>
 
                     <div class="info-box-content">
                         <span class="info-box-text">SMS Balance</span>
-                        <span class="info-box-number">{{$smsBalance}}</span>
+                        <span class="info-box-number">{{ $smsBalance }}</span>
                     </div>
                     <!-- /.info-box-content -->
                 </div>
@@ -113,7 +117,7 @@
                     <div class="card-header">
 
                         <h3 class="card-title">Rewarded Customer</h3> &nbsp;|&nbsp;
-                        <a href="{{route("reward-export")}}">Export</a>
+                        <a href="{{ route('reward-export') }}">Export</a>
 
                     </div>
                     <!-- /.card-header -->
@@ -136,13 +140,14 @@
 
                                 @foreach ($rewards as $key => $item)
                                     <tr>
-                                        <td>{{$key+1}}</td>
-                                        <td>{{$item->name}}</td>
-                                        <td>{{$item->phone}}</td>
-                                        <td>{{$item->vehicle_number}}</td>                                       
-                                        <td><span class="badge bg-info">{{$item->rewards}}</span></td>
+                                        <td>{{ $key + 1 }}</td>
+                                        <td>{{ $item->name }}</td>
+                                        <td>{{ $item->phone }}</td>
+                                        <td>{{ $item->vehicle_number }}</td>
+                                        <td><span class="badge bg-info">{{ $item->rewards }}</span></td>
                                         <td>
-                                            <a href="{{ route('redeem.create',$item->customer_id)}}" class="btn btn-sm btn-outline-success"><i
+                                            <a href="{{ route('redeem.create', $item->customer_id) }}"
+                                                class="btn btn-sm btn-outline-success"><i
                                                     class="fas fa-money-bill-wave"></i></a>
                                         </td>
                                     </tr>
@@ -205,7 +210,9 @@
                                             <td>{{ $customer->state }}</td>
                                             <td>
                                                 <div class="btn-group">
-                                                    <a href="{{ route('customer.show', $customer) }}" class="btn btn-warning" title="View"><i class="fas fa-eye"></i></a>
+                                                    <a href="{{ route('customer.show', $customer) }}"
+                                                        class="btn btn-warning" title="View"><i
+                                                            class="fas fa-eye"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -231,7 +238,9 @@
     @section('script')
         <script>
             var areaChartData = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October','November', 'December'],
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
+                    'November', 'December'
+                ],
                 datasets: [{
                     label: 'Sell',
                     backgroundColor: 'rgba(60,141,188,0.9)',

@@ -108,39 +108,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </li>
                         <!-- End::Redeem Menu-->
 
-                        {{--
+
                         <!-- Begin::Report Menu-->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-file-alt"></i>
+                                <i class="fab fa-whatsapp nav-icon"></i>
+
                                 <p>
-                                    Report
+                                    Messenger
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('messenger.create') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Customer Report</p>
+                                        <p>Compose</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{ route('messenger.index') }}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Payment Report</p>
+                                        <p>Report</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a href="#" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Sales Report</p>
-                                    </a>
-                                </li>
+
                             </ul>
                         </li>
-                        <!-- End::Report Menu--> 
-                        --}}
+                        <!-- End::Report Menu-->
+
 
                         <!-- Begin::Profile Menu-->
                         <li class="nav-item">
@@ -228,7 +224,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 Anything you want
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2023-2024 <a href="#">Dipankar IT Solution</a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2023-2024 <a href="#">Dipankar IT Solution</a>.</strong> All rights
+            reserved.
         </footer>
     </div>
     <!-- ./wrapper -->

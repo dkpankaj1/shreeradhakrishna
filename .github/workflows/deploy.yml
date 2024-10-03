@@ -42,4 +42,5 @@ jobs:
             php -r "unlink('composer-setup.php');"
             php composer.phar update
             php -r "unlink('composer.phar');"
+            php artisan migrate
             php artisan optimize
