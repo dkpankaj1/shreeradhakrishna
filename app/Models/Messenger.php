@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Messenger extends Model
 {
     use HasFactory;
-    protected $fillable= [
+    protected $fillable = [
         'send_from',
         'send_to',
         'content',
+        'attachment',
         'status',
     ];
 }
