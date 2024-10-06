@@ -7,18 +7,26 @@
         @csrf
         <div class="row d-flex align-items-stretch">
             <div class="col-md-4">
-                <div class="card h-100"> <!-- Ensure equal height with h-100 -->
+                <div class="card h-100">
                     <div class="card-header">
                         <h3 class="card-title">Customer</h3>
-                        <div class="card-tools">
-                            <div class="form-check nav-link">
-                                <input type="checkbox" id="selectAll" class="form-check-input">
-                                <label class="form-check-label" for="selectAll">Select All (Max 100)</label>
+                    </div>
+                    <div class="card-header">
+                        <div class="d-flex align-items-center justify-content-between gap-2">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input type="checkbox" id="selectAll" class="form-check-input">
+                                    <label class="form-check-label" for="selectAll">Select All (Max 100)</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" id="start_from" class="form-control" value="1" min="1"
+                                    max="{{ count($customers) }}">
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="px-3" style="height: 360px; overflow-y: scroll;">
+                        <div class="px-1" style="height: 360px; overflow-y: scroll;">
                             <ul class="nav nav-pills flex-column">
                                 @foreach ($customers as $key => $customer)
                                     <li class="nav-item">
@@ -41,20 +49,20 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <div class="card h-100"> <!-- Ensure equal height with h-100 -->
+                <div class="card h-100">
                     <div class="card-header">
                         <h3 class="card-title">Compose</h3>
                     </div>
                     <div class="card-body">
                         <div class="form-group">
                             <label for="message">Message</label>
-                            <textarea name="message" class="form-control" cols="30" rows="10"></textarea>
+                            <textarea name="message" class="form-control" cols="30" rows="10">{{ old('message') }}</textarea>
                             @error('message')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="message">Attachment</label>
+                            <label for="attachment">Attachment</label>
                             <input type="file" name="attachment" class="form-control" />
                         </div>
                         <div class="border-top py-2">
@@ -70,14 +78,16 @@
         <script>
             const selectAllCheckbox = document.getElementById('selectAll');
             const customerCheckboxes = document.querySelectorAll('.customer-checkbox');
+            const startFromInput = document.getElementById('start_from');
             const maxSelectionLimit = 100;
 
             // Handle 'Select All' checkbox functionality
             selectAllCheckbox.addEventListener('change', function() {
+                const startFrom = parseInt(startFromInput.value) - 1; // Convert to zero-based index
                 if (this.checked) {
                     let selectedCount = 0;
                     customerCheckboxes.forEach((checkbox, index) => {
-                        if (index < maxSelectionLimit) {
+                        if (index >= startFrom && selectedCount < maxSelectionLimit) {
                             checkbox.checked = true;
                             selectedCount++;
                         } else {

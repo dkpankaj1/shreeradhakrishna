@@ -26,6 +26,6 @@ class MessengerController extends Controller
             'ids' => 'required',
             'message' => 'required'
         ]);
-        return redirect()->route('messenger.index')->with('success', 'message sending in queue,');
+        return redirect()->back()->with('success', 'message sending in queue,');
     }
 }
