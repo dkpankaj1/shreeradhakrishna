@@ -66,8 +66,8 @@
                                     <div>
                                         <i class="fa fa-location-arrow"></i>
                                         <div class="details">
-                                            <p>NH 27 Madhopur Bujurg, TamkuhiRaj</p>
-                                            <span>Kushinagar,Uttar Pradesh 274406</span>
+                                            <p>Madhopur Buzurg,NH 27 Madhopur Bujurg, TamkuhiRaj</p>
+                                            <span>Madhopur Buzurg,Kushinagar,Uttar Pradesh 274406</span>
                                         </div>
                                     </div>
                                     <div>
@@ -126,7 +126,8 @@
                                 <div class="footer-logo"><img src="{{ asset('frontend') }}/logo.png" alt>
                                 </div>
                                 <ul class="contact-info">
-                                    <li><i class="fa fa-home"></i>NH27 Madhopur Bujurg, TamkuhiRaj</li>
+                                    <li><i class="fa fa-home"></i>Madhopur Buzurg,NH 27 Madhopur Bujurg,
+                                        TamkuhiRaj,Madhopur Buzurg,Kushinagar,Uttar Pradesh 274406</li>
                                     <li><i class="fa fa-phone"></i>+91-9953730559</li>
                                     <li><i class="fa fa-home"></i> Working Hours: 24x7</li>
                                 </ul>

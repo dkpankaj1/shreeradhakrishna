@@ -42,7 +42,8 @@
                             </li>
                             <li>
                                 <div class="icon"><i class="fa fa-location-arrow"></i></div>
-                                <p><span>Office</span> NH 27 Madhopur Bujurg, TamkuhiRaj, Kushinagar,Uttar Pradesh
+                                <p><span>Office</span>Madhopur Buzurg,NH 27 Madhopur Bujurg, TamkuhiRaj, Madhopur
+                                    Bujurg, Kushinagar,Uttar Pradesh
                                     274406 </p>
                             </li>
                         </ul>
