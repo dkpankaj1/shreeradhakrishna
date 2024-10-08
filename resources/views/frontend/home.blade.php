@@ -85,7 +85,7 @@
                         <h2>What We Offer</h2>
                     </div>
                     <div class="offer-text">
-                        <p>AtSRKE, we provide high-quality petrol and diesel to ensure your vehicle performs at its
+                        <p>At SRKE, we provide high-quality petrol and diesel to ensure your vehicle performs at its
                             best. Our fuel is designed for efficiency and reliability, whether you're driving in the
                             city or on the highway.</p>
                         <p>We also offer an exclusive rewards program for our loyal customers. Every time you
@@ -100,7 +100,7 @@
                                 <div class="icon">
                                     <i class="fi flaticon-construction"></i>
                                 </div>
-                                <h3>High-Quality Petroly</h3>
+                                <h3>High-Quality Petrol</h3>
                                 <p>Our petrol ensures optimal engine performance and efficiency. Whether you're
                                     commuting or embarking on a long journey, trust our fuel to take you farther
                                     with reliability and smoothness.</p>
@@ -299,7 +299,7 @@
                             </div>
                             <div id="collapse3" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                    <p>Our petrol pump is open Mon-Sun (6 am - 11 pm), ensuring you can refuel your vehicle at
+                                    <p>Our petrol pump is open 24x7, ensuring you can refuel your vehicle at
                                         your convenience, whether it's early in the morning or late at night.</p>
                                 </div>
                             </div>

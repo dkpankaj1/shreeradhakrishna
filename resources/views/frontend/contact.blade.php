@@ -38,7 +38,7 @@
                             </li>
                             <li>
                                 <div class="icon"><i class="fa fa-clock-o"></i></div>
-                                <p><span>Working Hours:</span>Mon-Sun (6 am - 11 pm) </p>
+                                <p><span>Working Hours:</span>24x7</p>
                             </li>
                             <li>
                                 <div class="icon"><i class="fa fa-location-arrow"></i></div>

@@ -128,7 +128,7 @@
                                 <ul class="contact-info">
                                     <li><i class="fa fa-home"></i>NH27 Madhopur Bujurg, TamkuhiRaj</li>
                                     <li><i class="fa fa-phone"></i>+91-9953730559</li>
-                                    <li><i class="fa fa-home"></i> Working Hours: <br>Mon-Sun (6 am - 11 pm)</li>
+                                    <li><i class="fa fa-home"></i> Working Hours: 24x7</li>
                                 </ul>
                             </div>
                         </div>
