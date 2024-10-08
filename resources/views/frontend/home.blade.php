@@ -136,10 +136,10 @@
                                 <div class="icon">
                                     <i class="fi flaticon-time-passing"></i>
                                 </div>
-                                <h3>Friendly Service</h3>
-                                <p>Customer satisfaction is our priority. Our dedicated staff is always ready to
-                                    assist you with prompt and courteous service, ensuring a pleasant and
-                                    hassle-free refueling experience.</p>
+                                <h3>Convenient Location & Amenities</h3>
+                                <p>Located at a prime spot, our petrol pump offers easy access and a range of amenities,
+                                    including a mini-mart for refreshments and vehicle essentials. Everything you need
+                                    in one place.</p>
                             </div>
                         </div>
                     </div>
@@ -162,8 +162,8 @@
                             high-quality fuel for all types of vehicles. As a proud franchise of Hindustan Petroleum
                             (HP), we ensure that our customers receive the best petrol and diesel, designed to enhance
                             vehicle performance and efficiency.</p>
-                        <a href="{{route('about')}}" class="theme-btn read-more">Read More</a>
-                            <a href="{{route('about')}}" class="theme-btn-s2 read-more">Company history</a>
+                        <a href="{{ route('about') }}" class="theme-btn read-more">Read More</a>
+                        <a href="{{ route('about') }}" class="theme-btn-s2 read-more">Company history</a>
                     </div>
                 </div>
                 <div class="col col-md-7">
