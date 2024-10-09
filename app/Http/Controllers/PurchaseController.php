@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\AppHelper;
 use App\Models\Customer;
+use App\Models\Messenger;
 use App\Models\Purchase;
+use App\Models\WaTemplate;
+use App\Services\WhatsAppService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -94,13 +97,23 @@ class PurchaseController extends Controller
             'customer_id' => $request->customer_id,
             'created_by' => $request->user()->email,
         ];
-
+        Purchase::create($data);
         try {
-            Purchase::create($data);
-            BhashSmsService::sendNewPurchaseSms(
-                Customer::where('id', $request->customer_id)->first()->phone,
-                Purchase::where(['customer_id' => $request->customer_id, 'isredeem' => 0])->sum('reward'),
-            );
+
+            $customer = Customer::where('id', $request->customer_id)->first();
+            $template = WaTemplate::where('template_id', 'new_purchase')->first();
+            $totalReword = Purchase::where(['customer_id' => $request->customer_id, 'isredeem' => 0])->sum('reward') ?? 0;
+            $waService = new WhatsAppService();
+            $msg = new Messenger();
+
+            $waService->sendTextWithParams($customer->phone, $template->template_id, [$customer->name, $totalReword]);
+
+            $msg->customer_id = $customer->id;
+            $msg->wa_template_id = $template->id;
+            $msg->attachment = "";
+            $msg->status = 1;
+            $msg->save();
+
             return redirect()->route('purchase.index')->with('success', 'Purchase Update successfully');
 
         } catch (\Exception $e) {

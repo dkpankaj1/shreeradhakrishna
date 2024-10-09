@@ -133,10 +133,14 @@ class WhatsAppService
     {
         try {
             $response = Http::get($this->baseUrl, $query);
-            return $response->json(); // Assumes the response is JSON, adjust if necessary
+            if ($response->header('Content-Type') === 'application/json') {
+                return $response->json(); // Parse and return the JSON response
+            }
+            return $response->body();
         } catch (\Exception $e) {
             // Handle the exception or log the error
             return ['error' => $e->getMessage()];
         }
     }
+
 }

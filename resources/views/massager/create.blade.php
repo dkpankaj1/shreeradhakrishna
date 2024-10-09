@@ -16,7 +16,7 @@
                             <div class="form-group">
                                 <div class="form-check">
                                     <input type="checkbox" id="selectAll" class="form-check-input">
-                                    <label class="form-check-label" for="selectAll">Select All (Max 100)</label>
+                                    <label class="form-check-label" for="selectAll">Select All (Max 50)</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -85,7 +85,7 @@
             const selectAllCheckbox = document.getElementById('selectAll');
             const customerCheckboxes = document.querySelectorAll('.customer-checkbox');
             const startFromInput = document.getElementById('start_from');
-            const maxSelectionLimit = 100;
+            const maxSelectionLimit = 50;
 
             // Handle 'Select All' checkbox functionality
             selectAllCheckbox.addEventListener('change', function() {

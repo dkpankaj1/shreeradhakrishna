@@ -34,21 +34,27 @@ class MessengerController extends Controller
             'template_id' => 'required|exists:wa_templates,id'
         ]);
         try {
-            $status = [];
-
+            $mobiles = [];
             $ids = $request->input('ids');
             $customers = Customer::whereIn('id', $ids)->get();
             $template = WaTemplate::find($request->template_id);
 
             foreach ($customers as $customer) {
+                $mobiles[] = $customer->phone;
+            }
+
+            $whatsappService = new WhatsAppService();
+            $whatsappService->sendNormalText($mobiles, $template->template_id);
+
+            foreach ($customers as $customer) {
                 $msg = new Messenger();
+
+
                 $msg->customer_id = $customer->id;
                 $msg->wa_template_id = $request->template_id;
                 $msg->attachment = "";
                 $msg->status = 1;
                 $msg->save();
-                $whatsappService = new WhatsAppService();
-                $whatsappService->sendNormalText([$customer->phone], $template->template_id);
             }
             return redirect()->route('messenger.index')->with('success', 'message sending in queue,');
         } catch (\Exception $e) {
