@@ -197,6 +197,7 @@ class CustomerController extends Controller
     {
         try {
             $customer->update(['deleted_by' => $request->user()->email]);
+            $customer->messengers()->delete();
             $customer->delete();
             return redirect()->route('customer.index')->with('success', 'Customer delete successfull');
         } catch (\Exception $e) {
