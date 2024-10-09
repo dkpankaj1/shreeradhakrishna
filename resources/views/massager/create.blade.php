@@ -35,7 +35,7 @@
                                                 name="ids[]" value="{{ $customer->id }}">
                                             <label class="form-check-label" for="customer-{{ $customer->id }}">
                                                 {{ $key + 1 }} - {{ $customer->name }}
-                                                ({{ $customer->purchases_count }})
+                                                ({{ $customer->purchases_count }}) - ({{ $customer->phone }})
                                             </label>
                                         </div>
                                     </li>
@@ -67,10 +67,10 @@
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
-                        <div class="form-group">
+                        {{-- <div class="form-group">
                             <label for="attachment">Attachment</label>
                             <input type="file" name="attachment" class="form-control" />
-                        </div>
+                        </div> --}}
                         <div class="border-top py-2">
                             <button type="submit" class="btn btn-primary px-4">Send</button>
                         </div>

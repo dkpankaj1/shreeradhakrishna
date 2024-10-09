@@ -12,7 +12,7 @@ class MessengerController extends Controller
 {
     public function index(Request $request)
     {
-        $messengers = Messenger::with(['customer','waTemplate'])->latest()->paginate(20);
+        $messengers = Messenger::with(['customer', 'waTemplate'])->latest()->paginate(20);
         return view('massager.index', [
             'messengers' => $messengers
         ]);
@@ -45,11 +45,10 @@ class MessengerController extends Controller
                 $msg->customer_id = $customer->id;
                 $msg->wa_template_id = $request->template_id;
                 $msg->attachment = "";
+                $msg->status = 1;
                 $msg->save();
-
                 $whatsappService = new WhatsAppService();
-                $status[] = $whatsappService->sendNormalText($customer->phone, $template->template_id);
-
+                $whatsappService->sendNormalText([$customer->phone], $template->template_id);
             }
             return redirect()->route('messenger.index')->with('success', 'message sending in queue,');
         } catch (\Exception $e) {
