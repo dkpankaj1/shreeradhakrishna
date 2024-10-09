@@ -181,6 +181,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                             <p>Reword Setup</p>
                                         </a>
                                     </li>
+                                    <li class="nav-item">
+                                        <a href="{{ route('wa-template.index') }}" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>WA Template</p>
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                         @endif

@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RedeemController;
 use App\Http\Controllers\RewardSettingController;
+use App\Http\Controllers\WaTemplateController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/reward-export', [DashboardController::class, 'exportTopReworderCustomer'])->name('reward-export');
     Route::get('/reward/{rewardSetting}/edit', [RewardSettingController::class, 'edit'])->name('setting.reward.edit');
     Route::put('/reward/{rewardSetting}/edit', [RewardSettingController::class, 'update'])->name('setting.reward.update');
+
+    Route::resource('wa-template', WaTemplateController::class)->except('show');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/password', [ProfileController::class, 'password_get'])->name('password.edit');

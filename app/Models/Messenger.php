@@ -9,10 +9,19 @@ class Messenger extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'send_from',
-        'send_to',
-        'content',
+        'customer_id',
+        'wa_template_id',
         'attachment',
         'status',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
+    public function waTemplate()
+    {
+        return $this->belongsTo(WaTemplate::class);
+    }
 }

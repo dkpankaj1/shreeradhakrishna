@@ -55,9 +55,15 @@
                     </div>
                     <div class="card-body">
                         <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea name="message" class="form-control" cols="30" rows="10">{{ old('message') }}</textarea>
-                            @error('message')
+                            <label for="message">Template id</label>
+                            <select name="template_id" class="form-control">
+                                <option value="">-- select --</option>
+                                @foreach ($messageTemplates as $messageTemplate)
+                                    <option value="{{ $messageTemplate->id }}">{{ $messageTemplate->template_id }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('template_id')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>

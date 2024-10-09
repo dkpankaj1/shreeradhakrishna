@@ -14,10 +14,9 @@ return new class extends Migration {
     {
         Schema::create('messengers', function (Blueprint $table) {
             $table->id();
-            $table->string('send_from');
-            $table->string('send_to');
-            $table->string('content');
-            $table->string('attachment');
+            $table->foreignId('customer_id');
+            $table->foreignId('wa_template_id');
+            $table->string('attachment')->nullable();
             $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });

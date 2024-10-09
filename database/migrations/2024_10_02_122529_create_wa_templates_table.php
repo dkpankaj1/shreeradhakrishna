@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,12 +12,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('bhash_b_w_a_configrations', function (Blueprint $table) {
+        Schema::create('wa_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('username');
-            $table->string('password');
-            $table->string('sender_id');
-            $table->tinyInteger('is_active');
+            $table->string('template_id');
+            $table->text('template');
+            $table->tinyInteger('status')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bhash_b_w_a_configrations');
+        Schema::dropIfExists('wa_templates');
     }
 };

@@ -23,10 +23,16 @@ class Customer extends Model
         "updated_by"
     ];
 
-    public function purchases(){
+    public function purchases()
+    {
         return $this->hasMany(Purchase::class);
     }
-    public function redeems(){
+    public function redeems()
+    {
         return $this->hasMany(Redeem::class);
+    }
+    public function messengers()
+    {
+        return $this->hasMany(Messenger::class);
     }
 }
