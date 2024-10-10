@@ -132,15 +132,30 @@ class WhatsAppService
     protected function sendRequest($query)
     {
         try {
+            // Log the base URL and query parameters for debugging
+            \Log::info('Sending request to: ' . $this->baseUrl, ['query' => $query]);
+
             $response = Http::get($this->baseUrl, $query);
+
+            // Log the response headers and status code
+            \Log::info('Response Status: ' . $response->status());
+            \Log::info('Response Headers: ', $response->headers());
+
             if ($response->header('Content-Type') === 'application/json') {
-                return $response->json(); // Parse and return the JSON response
+                \Log::info('Response JSON: ', $response->json()); // Log the parsed JSON response
+                return $response->json();
             }
+
+            // Log non-JSON response body
+            \Log::info('Response Body: ' . $response->body());
+
             return $response->body();
         } catch (\Exception $e) {
-            // Handle the exception or log the error
+            // Log the exception details
+            \Log::error('Error in sendRequest: ' . $e->getMessage());
             return ['error' => $e->getMessage()];
         }
     }
+
 
 }
