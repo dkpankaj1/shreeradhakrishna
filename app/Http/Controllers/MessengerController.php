@@ -42,7 +42,6 @@ class MessengerController extends Controller
             foreach ($customers as $customer) {
                 $mobiles[] = $customer->phone;
             }
-
             $whatsappService = new WhatsAppService();
             $whatsappService->sendNormalText($mobiles, $template->template_id);
 

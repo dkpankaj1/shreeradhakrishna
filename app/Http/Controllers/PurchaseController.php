@@ -106,7 +106,7 @@ class PurchaseController extends Controller
             $waService = new WhatsAppService();
             $msg = new Messenger();
 
-            $waService->sendTextWithParams($customer->phone, $template->template_id, [$customer->name, $totalReword]);
+            $waService->sendTextWithParams([$customer->phone], $template->template_id, [$customer->name, $totalReword]);
 
             $msg->customer_id = $customer->id;
             $msg->wa_template_id = $template->id;
