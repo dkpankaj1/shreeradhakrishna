@@ -10,8 +10,9 @@
 
     <form action="{{ route('messenger.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
-        <div class="row d-flex align-items-stretch">
-            <div class="col-12">
+        <div class="row d-flex align-items-stretch mb-3">
+
+            <div class="col-md-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <h3 class="card-title">Compose</h3>
@@ -40,10 +41,21 @@
                             <label for="attachment">Attachment</label>
                             <input type="file" name="attachment" class="form-control" />
                         </div> --}}
+                    </div>
+                </div>
+            </div>
 
-                        <div class="responsive">
+            <div class="col-md-8">
+                <div class="card h-100">
+                    <div class="card-body">
+                        {{-- <div class="form-group">
+                            <label for="attachment">Attachment</label>
+                            <input type="file" name="attachment" class="form-control" />
+                        </div> --}}
+
+                        <div class="responsive border p-2">
                             <table class="table table-strip" id="dataTable">
-                                <thead>
+                                <thead class="bg-dark">
                                     <tr>
                                         <td>#</td>
                                         <td>Customer</td>
@@ -55,8 +67,8 @@
                                     @foreach ($customers as $key => $customer)
                                         <tr>
                                             <td>
-                                                <input type="checkbox" class="form-check-input customer-checkbox"
-                                                    name="ids[]" value="{{ $customer->id }}">
+                                                <input type="checkbox" class="customer-checkbox" name="ids[]"
+                                                    value="{{ $customer->id }}" />
                                             </td>
                                             <td>{{ $customer->name }}</td>
                                             <td>{{ $customer->phone }}</td>
@@ -122,7 +134,7 @@
             $(function() {
                 $('#dataTable').DataTable({
                     "paging": true,
-                    "lengthChange": false,
+                    "lengthChange": true,
                     "searching": true,
                     "ordering": true,
                     "info": true,

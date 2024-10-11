@@ -12,7 +12,8 @@ class WaTemplate extends Model
         "template_id",
         "template",
         "status",
-        "has_param"
+        "has_param",
+        "approve"
     ];
 
     public function messengers()

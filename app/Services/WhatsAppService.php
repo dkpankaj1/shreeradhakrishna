@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Services;
+use Http;
+use Illuminate\Support\Facades\Log;
 
 class WhatsAppService
 {
@@ -152,5 +154,24 @@ class WhatsAppService
             \Log::error('Error in sendRequest: ' . $e->getMessage());
             return ['error' => $e->getMessage()];
         }
+    }
+
+    public static function checkWABalance()
+    {
+        $balance = 0;
+        try {
+            $url = 'http://bhashsms.com/api/checkbalance.php';
+
+            $response = Http::get($url, [
+                "user" => "SHREERADHABWA",
+                "pass" => "123456",
+            ]);
+            if ($response->successful()) {
+                $balance = $response->body();
+            }
+        } catch (\Exception $e) {
+            Log::error("Exception occurred while Getting SMS Balance");
+        }
+        return $balance;
     }
 }

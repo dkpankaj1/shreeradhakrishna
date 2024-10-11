@@ -12,13 +12,14 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table table-striped">
+                <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>Tamplate Id</th>
                             <th>Template</th>
                             <th>Created At</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -29,11 +30,12 @@
                                 <td>{{ $waTemplate->template_id }}</td>
                                 <td>{{ $waTemplate->template }}</td>
                                 <td>{{ $waTemplate->created_at }}</td>
+                                <td>{{ $waTemplate->approve === 1 ? 'Approved' : 'Pending' }}</td>
                                 <td>
                                     <div class="d-flex">
                                         <a class="btn btn-warning btn-sm"
                                             href="{{ route('wa-template.edit', $waTemplate->id) }}">Edit</a>
-                                            &nbsp;
+                                        &nbsp;
                                         <div>
                                             <form action="{{ route('wa-template.destroy', $waTemplate->id) }}"
                                                 method="POST">

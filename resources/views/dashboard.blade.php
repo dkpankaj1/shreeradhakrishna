@@ -80,7 +80,7 @@
                     </span>
 
                     <div class="info-box-content">
-                        <span class="info-box-text">SMS Balance</span>
+                        <span class="info-box-text">WA   Balance</span>
                         <span class="info-box-number">{{ $smsBalance }}</span>
                     </div>
                     <!-- /.info-box-content -->

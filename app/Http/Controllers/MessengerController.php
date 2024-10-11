@@ -23,7 +23,10 @@ class MessengerController extends Controller
             ->orderBy('purchases_count', 'DESC')
             ->orderBy('name', 'ASC')
             ->get();
-        $messageTemplates = WaTemplate::where('has_param',0)->select(['id', 'template_id'])->get();
+        $messageTemplates = WaTemplate::where('has_param', 0)
+            ->where('approve', 1)
+            ->select(['id', 'template_id'])
+            ->get();
         return view('massager.create', ['customers' => $customers, 'messageTemplates' => $messageTemplates]);
     }
     public function store(Request $request)

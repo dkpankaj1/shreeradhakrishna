@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Purchase;
 use App\Services\BhashSmsService;
+use App\Services\WhatsAppService;
 use DB;
 use Illuminate\Http\Request;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -44,7 +45,7 @@ class DashboardController extends Controller
             ->orderBy('rewards', 'DESC')
             ->get();
 
-        $smsBalance = BhashSmsService::checkSMSBalance();
+        $smsBalance = WhatsAppService::checkWABalance();
         return view('dashboard', [
             'customers' => Customer::latest()->take(5)->get(),
             'rewards' => $r,
