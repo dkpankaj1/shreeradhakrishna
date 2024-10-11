@@ -1,4 +1,9 @@
 <x-app-layout>
+    @section('head')
+        <link rel="stylesheet" href="{{ asset('plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+    @endsection
     @section('breadcrumb')
         {{ Breadcrumbs::render('messenger.create') }}
     @endsection
@@ -6,49 +11,7 @@
     <form action="{{ route('messenger.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="row d-flex align-items-stretch">
-            <div class="col-md-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h3 class="card-title">Customer</h3>
-                    </div>
-                    <div class="card-header">
-                        <div class="d-flex align-items-center justify-content-between gap-2">
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <input type="checkbox" id="selectAll" class="form-check-input">
-                                    <label class="form-check-label" for="selectAll">Select All (Max 50)</label>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <input type="number" id="start_from" class="form-control" value="1" min="1"
-                                    max="{{ count($customers) }}">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="px-1" style="height: 360px; overflow-y: scroll;">
-                            <ul class="nav nav-pills flex-column">
-                                @foreach ($customers as $key => $customer)
-                                    <li class="nav-item">
-                                        <div class="form-check nav-link">
-                                            <input type="checkbox" class="form-check-input customer-checkbox"
-                                                name="ids[]" value="{{ $customer->id }}">
-                                            <label class="form-check-label" for="customer-{{ $customer->id }}">
-                                                {{ $key + 1 }} - {{ $customer->name }}
-                                                ({{ $customer->purchases_count }}) - ({{ $customer->phone }})
-                                            </label>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            @error('ids')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-8">
+            <div class="col-12">
                 <div class="card h-100">
                     <div class="card-header">
                         <h3 class="card-title">Compose</h3>
@@ -56,14 +19,20 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="message">Template id</label>
-                            <select name="template_id" class="form-control">
+                            <select name="template_id" class="form-control @error('template_id') is-invalid @enderror">
                                 <option value="">-- select --</option>
                                 @foreach ($messageTemplates as $messageTemplate)
-                                    <option value="{{ $messageTemplate->id }}">{{ $messageTemplate->template_id }}
+                                    <option value="{{ $messageTemplate->id }}"
+                                        {{ old('template_id') == $messageTemplate->id ? 'selected' : '' }}>
+                                        {{ $messageTemplate->template_id }}
                                     </option>
                                 @endforeach
                             </select>
                             @error('template_id')
+                                <div class="invalid-feedback d-block">{{ $message }}</div>
+                            @enderror
+
+                            @error('ids')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
                         </div>
@@ -71,6 +40,33 @@
                             <label for="attachment">Attachment</label>
                             <input type="file" name="attachment" class="form-control" />
                         </div> --}}
+
+                        <div class="responsive">
+                            <table class="table table-strip" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <td>#</td>
+                                        <td>Customer</td>
+                                        <td>Mobile</td>
+                                        <td>Visit</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($customers as $key => $customer)
+                                        <tr>
+                                            <td>
+                                                <input type="checkbox" class="form-check-input customer-checkbox"
+                                                    name="ids[]" value="{{ $customer->id }}">
+                                            </td>
+                                            <td>{{ $customer->name }}</td>
+                                            <td>{{ $customer->phone }}</td>
+                                            <td>{{ $customer->purchases_count }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <p>Selected Users: <span id="selectedCount">0</span></p>
+                        </div>
                         <div class="border-top py-2">
                             <button type="submit" class="btn btn-primary px-4">Send</button>
                         </div>
@@ -87,28 +83,6 @@
             const startFromInput = document.getElementById('start_from');
             const maxSelectionLimit = 50;
 
-            // Handle 'Select All' checkbox functionality
-            selectAllCheckbox.addEventListener('change', function() {
-                const startFrom = parseInt(startFromInput.value) - 1; // Convert to zero-based index
-                if (this.checked) {
-                    let selectedCount = 0;
-                    customerCheckboxes.forEach((checkbox, index) => {
-                        if (index >= startFrom && selectedCount < maxSelectionLimit) {
-                            checkbox.checked = true;
-                            selectedCount++;
-                        } else {
-                            checkbox.checked = false;
-                        }
-                    });
-                    if (selectedCount >= maxSelectionLimit) {
-                        alert(`You have selected the maximum of ${maxSelectionLimit} customers.`);
-                    }
-                } else {
-                    // Uncheck all if 'Select All' is unchecked
-                    customerCheckboxes.forEach(checkbox => checkbox.checked = false);
-                }
-            });
-
             // Handle manual selection limit
             customerCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
@@ -119,6 +93,41 @@
                         this.checked = false;
                         alert(`You can only select a maximum of ${maxSelectionLimit} customers.`);
                     }
+                });
+            });
+
+            document.addEventListener('DOMContentLoaded', function() {
+                const checkboxes = document.querySelectorAll('.customer-checkbox');
+                const selectedCountDisplay = document.getElementById('selectedCount');
+
+                function updateSelectedCount() {
+                    const selectedCount = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+                    selectedCountDisplay.textContent = selectedCount;
+                }
+
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', updateSelectedCount);
+                });
+            });
+        </script>
+
+        <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+        <script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+
+        <script>
+            $(function() {
+                $('#dataTable').DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
                 });
             });
         </script>

@@ -24,11 +24,13 @@ class WaTemplateController extends Controller
         $request->validate([
             'template_id' => 'required',
             'template' => 'required',
+            'has_param' => 'required'
         ]);
 
         WaTemplate::create([
             "template_id" => $request->template_id,
             "template" => $request->template,
+            "has_param" => $request->has_param,
             "status" => 1
         ]);
 
@@ -43,11 +45,13 @@ class WaTemplateController extends Controller
         $request->validate([
             'template_id' => 'required',
             'template' => 'required',
+            'has_param' => 'required'
         ]);
 
         $wa_template->update([
             "template_id" => $request->template_id,
             "template" => $request->template,
+            "has_param" => $request->has_param,
             "status" => 1
         ]);
 
