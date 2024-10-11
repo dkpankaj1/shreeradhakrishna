@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Http;
-
 class WhatsAppService
 {
     protected $baseUrl;
@@ -14,14 +12,11 @@ class WhatsAppService
     public function __construct()
     {
         $this->baseUrl = 'http://bhashsms.com/api/sendmsg.php';
-        $this->user = env('WA_API_USER', 'SHREERADHABWA'); // Add this to .env
-        $this->pass = env('WA_API_PASS', '********'); // Add this to .env
-        $this->sender = env('WA_API_SENDER', 'BUZWAP'); // Add this to .env
+        $this->user = "SHREERADHABWA";
+        $this->pass = "123456";
+        $this->sender = "BUZWAP";
     }
 
-    /**
-     * Send normal text message.
-     */
     public function sendNormalText($mobileNumbers, $templateName)
     {
         $query = [
@@ -37,9 +32,6 @@ class WhatsAppService
         return $this->sendRequest($query);
     }
 
-    /**
-     * Send text message with variables/parameters.
-     */
     public function sendTextWithParams($mobileNumbers, $templateName, $params)
     {
         $query = [
@@ -56,9 +48,6 @@ class WhatsAppService
         return $this->sendRequest($query);
     }
 
-    /**
-     * Send text message with variables and an image/video.
-     */
     public function sendMediaMessage($mobileNumbers, $templateName, $params, $mediaType, $mediaUrl)
     {
         $query = [
@@ -77,9 +66,6 @@ class WhatsAppService
         return $this->sendRequest($query);
     }
 
-    /**
-     * Send normal text message after customer replies.
-     */
     public function sendReplyText($mobileNumbers, $text)
     {
         $query = [
@@ -92,12 +78,10 @@ class WhatsAppService
             'stype' => 'normal',
             'htype' => 'normal',
         ];
+
         return $this->sendRequest($query);
     }
 
-    /**
-     * Send OTP message.
-     */
     public function sendOtpMessage($mobileNumbers, $templateName, $otp)
     {
         $query = [
@@ -114,48 +98,59 @@ class WhatsAppService
         return $this->sendRequest($query);
     }
 
-    /**
-     * Helper function to format mobile numbers by removing '91' and ensuring 10 digits.
-     */
     protected function formatMobileNumbers($mobileNumbers)
     {
         return implode(',', array_map(function ($number) {
-            // Remove country code '91' if present, and any other non-digit characters
             $number = preg_replace('/[^0-9]/', '', $number); // Remove non-numeric characters
             return substr($number, -10); // Get the last 10 digits
         }, (array) $mobileNumbers));
     }
 
-    /**
-     * Helper function to send request to the API using the Http facade.
-     */
     protected function sendRequest($query)
     {
         try {
-            // Log the base URL and query parameters for debugging
-            \Log::info('Sending request to: ' . $this->baseUrl, ['query' => $query]);
+            $url = $this->baseUrl . '?' . http_build_query($query);
 
-            $response = Http::get($this->baseUrl, $query);
+            // Initialize cURL
+            $ch = curl_init();
 
-            // Log the response headers and status code
-            \Log::info('Response Status: ' . $response->status());
-            \Log::info('Response Headers: ', $response->headers());
+            // Set cURL options
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Set timeout for 10 seconds
 
-            if ($response->header('Content-Type') === 'application/json') {
-                \Log::info('Response JSON: ', $response->json()); // Log the parsed JSON response
-                return $response->json();
+            // Execute cURL request
+            $response = curl_exec($ch);
+
+            // Log the response
+            if ($response === false) {
+                \Log::error('cURL Error: ' . curl_error($ch));
+                return ['error' => curl_error($ch)];
             }
 
-            // Log non-JSON response body
-            \Log::info('Response Body: ' . $response->body());
+            // Get response status and content type
+            $httpStatus = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            $contentType = curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
 
-            return $response->body();
+            \Log::info('Response Status: ' . $httpStatus);
+
+            // Close cURL session
+            curl_close($ch);
+
+            // If response is JSON, decode and return
+            if (strpos($contentType, 'application/json') !== false) {
+                $responseJson = json_decode($response, true);
+                \Log::info('Response JSON: ', $responseJson);
+                return $responseJson;
+            }
+
+            // Log and return the raw response body for non-JSON content
+            \Log::info('Response Body: ' . $response);
+            return $response;
+
         } catch (\Exception $e) {
-            // Log the exception details
             \Log::error('Error in sendRequest: ' . $e->getMessage());
             return ['error' => $e->getMessage()];
         }
     }
-
-
 }
