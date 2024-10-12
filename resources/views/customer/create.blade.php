@@ -33,7 +33,7 @@
 
                     <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label">Phone</label>
+                            <label class="form-label">Phone (without +91)</label>
                             <input type="text" name="phone" class="form-control" placeholder="Enter phonenumber"
                                 value="{{ old('phone') }}">
                             @error('phone')

@@ -59,14 +59,14 @@ class WaTemplateController extends Controller
     }
     public function destroy(WaTemplate $wa_template)
     {
-        $count = $wa_template->messengers()->count();
+        // $count = $wa_template->messengers()->count();
 
-        if ($count > 0) {
-            return redirect()->route('wa-template.index')->with('danger', 'template could not be deleted.');
-        } else {
-            $wa_template->delete();
-            return redirect()->route('wa-template.index')->with('success', 'template deleted.');
-        }
+        // if ($count > 0) {
+        //     return redirect()->route('wa-template.index')->with('danger', 'template could not be deleted.');
+        // } else {
+        //     $wa_template->delete();
+        //     return redirect()->route('wa-template.index')->with('success', 'template deleted.');
+        // }
 
     }
 }

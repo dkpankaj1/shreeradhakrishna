@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Customer;
 use App\Models\Purchase;
 use App\Models\Redeem;
+use App\Models\WaTemplate;
+use App\Services\WhatsAppService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -67,7 +69,7 @@ class CustomerController extends Controller
         $request->validate([
             'card_number'       => 'required|unique:customers,card',
             'name'              => 'required',
-            'phone'             => 'required',
+            'phone'             => 'required|digits:10',
             'vehicle'           => 'nullable|string',
             'city'              => 'nullable|string',
             'address'           => 'nullable|string',
@@ -89,8 +91,13 @@ class CustomerController extends Controller
             "created_by"        => $request->user()->email
         ];
         try {
-            Customer::create($customer);
-            return redirect()->route('customer.index')->with('success', 'Customer create successfull');
+            $customerData = Customer::create($customer);
+
+            $template = WaTemplate::find(1);
+            $whatsappService = new WhatsAppService();
+            $whatsappService->sendNormalText($customerData->phone, $template->template_id);
+
+            return redirect()->route('customer.index')->with('success', 'Customer create success!.');
         } catch (\Exception $e) {
             return back()->with('danger', $e->getMessage());
         }
