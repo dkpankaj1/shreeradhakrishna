@@ -101,7 +101,7 @@ class PurchaseController extends Controller
         try {
 
             $customer = Customer::where('id', $request->customer_id)->first();
-            $template = WaTemplate::where('template_id', 'new_purchase')->first();
+            $template = WaTemplate::where('template_id', 'new_purchase1')->first();
             $totalReword = Purchase::where(['customer_id' => $request->customer_id, 'isredeem' => 0])->sum('reward') ?? 0;
             $waService = new WhatsAppService();
             $msg = new Messenger();
