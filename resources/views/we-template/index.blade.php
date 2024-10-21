@@ -33,8 +33,8 @@
                                 <td>{{ $waTemplate->approve === 1 ? 'Approved' : 'Pending' }}</td>
                                 <td>
                                     <div class="d-flex">
-                                        <a class="btn btn-warning btn-sm"
-                                            href="{{ route('wa-template.edit', $waTemplate->id) }}">Edit</a>
+                                        {{-- <a class="btn btn-warning btn-sm"
+                                            href="{{ route('wa-template.edit', $waTemplate->id) }}">Edit</a> --}}
                                         &nbsp;
                                         {{-- <div>
                                             <form action="{{ route('wa-template.destroy', $waTemplate->id) }}"
