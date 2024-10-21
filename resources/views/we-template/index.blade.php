@@ -36,14 +36,14 @@
                                         <a class="btn btn-warning btn-sm"
                                             href="{{ route('wa-template.edit', $waTemplate->id) }}">Edit</a>
                                         &nbsp;
-                                        <div>
+                                        {{-- <div>
                                             <form action="{{ route('wa-template.destroy', $waTemplate->id) }}"
                                                 method="POST">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                                             </form>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </td>
                             </tr>
