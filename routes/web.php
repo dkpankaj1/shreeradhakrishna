@@ -3,10 +3,12 @@
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MessengerController;
+use App\Http\Controllers\MassageComposerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RedeemController;
 use App\Http\Controllers\RewardSettingController;
+use App\Http\Controllers\SendCustomerRewordMsg;
 use App\Http\Controllers\WaTemplateController;
 use App\Http\Controllers\WebsiteController;
 use Illuminate\Support\Facades\Route;
@@ -28,11 +30,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
     Route::resource('/purchase', PurchaseController::class);
     Route::get('/purchase/{purchase}/delete', [PurchaseController::class, 'delete'])->name('purchase.delete');
-    Route::resource('messenger', MessengerController::class)->only(methods: [
-        'index',
-        'create',
-        'store',
-    ]);
+
+    Route::post("send-reword-msg", [SendCustomerRewordMsg::class, 'send'])->name('reword-msg.send');
+    
+    Route::get("template-selection", [MassageComposerController::class, 'index'])->name('message.selection');
+    Route::get('messenger', [MessengerController::class, "index"])->name('messenger.index');
+    Route::get('messenger/create', [MessengerController::class, "create"])->name('messenger.create');
+    Route::post('messenger/create', [MessengerController::class, "store"])->name('messenger.store');
+
     Route::get('/redeem', [RedeemController::class, 'index'])->name('redeem.index');
     Route::get('/redeem/{customer}/create', [RedeemController::class, 'create'])->name('redeem.create');
     Route::post('/redeem/{customer}/create', [RedeemController::class, 'store'])->name('redeem.store');

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -12,12 +13,8 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('wa_templates', function (Blueprint $table) {
-            $table->id();
-            $table->string('template_id')->unique();
-            $table->text('template');
-            $table->tinyInteger('status')->default(0);
-            $table->timestamps();
+        Schema::table('wa_templates', function (Blueprint $table) {
+             $table->tinyInteger('is_system_call')->default(0);
         });
     }
 
@@ -28,6 +25,8 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('wa_templates');
+        Schema::table('wa_templates', function (Blueprint $table) {
+             $table->dropColumn(['is_system_call']);
+        });
     }
 };

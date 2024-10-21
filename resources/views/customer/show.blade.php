@@ -51,17 +51,42 @@
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#purchase"
-                                        data-toggle="tab">Purchase History</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#payment" data-toggle="tab">Redeem
-                                        History</a>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#rewordNotification" data-toggle="tab">Reword
+                                        Notification</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#purchase" data-toggle="tab">Purchase History</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#payment" data-toggle="tab">Redeem History</a>
                                 </li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
                                 <!--Begin::activity panel-->
-                                <div class="active tab-pane table-responsive" id="purchase">
+                                <div class="active tab-pane table-responsive" id="rewordNotification">
+                                    <form action="{{route('reword-msg.send')}}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="customer_id" value="{{ $customer->id }}">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="template_id">Reword<span
+                                                        class="text-danger">(Required)</span></label>
+                                                <input type="text" placeholder="Enter Reword" name="reword"
+                                                    value="{{ old('reword') }}" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="border-top py-2">
+                                            <button type="submit" class="btn btn-primary px-4">Send</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <!--end::activity panel-->
+                                <!--Begin::activity panel-->
+                                <div class="tab-pane table-responsive" id="purchase">
                                     <table class="table table-sm">
 
                                         <thead>
@@ -142,9 +167,12 @@
                                                     <tr>
                                                         <td>{{ $key + 1 }}</td>
                                                         <td>{{ $redeem->amt }}</td>
-                                                        <td>{{ is_null($redeem->payment_detail) ? "no reward" : $redeem->payment_detail }}</td>
+                                                        <td>{{ is_null($redeem->payment_detail) ? 'no reward' : $redeem->payment_detail }}
+                                                        </td>
                                                         <td>{{ $redeem->updated_at }}</td>
-                                                        <td>{!! $redeem->status == 0 ?'<span class="badge bg-warning px-3 py-2">Pending</span>' :'<span class="badge bg-success px-3 py-2">Success</span>' !!}</td>
+                                                        <td>{!! $redeem->status == 0
+                                                            ? '<span class="badge bg-warning px-3 py-2">Pending</span>'
+                                                            : '<span class="badge bg-success px-3 py-2">Success</span>' !!}</td>
                                                     </tr>
                                                 @endforeach
                                             @else

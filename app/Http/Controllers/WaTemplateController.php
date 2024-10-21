@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Messenger;
 use App\Models\WaTemplate;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class WaTemplateController extends Controller
 {
@@ -43,7 +44,7 @@ class WaTemplateController extends Controller
     public function update(Request $request, WaTemplate $wa_template)
     {
         $request->validate([
-            'template_id' => 'required',
+            'template_id' => ['required', Rule::unique(WaTemplate::class, 'template_id')],
             'template' => 'required',
             'has_param' => 'required'
         ]);

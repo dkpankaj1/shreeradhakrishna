@@ -65,35 +65,36 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request): RedirectResponse
-    {  
+    {
         $request->validate([
-            'card_number'       => 'required|unique:customers,card',
-            'name'              => 'required',
-            'phone'             => 'required|digits:10',
-            'vehicle'           => 'nullable|string',
-            'city'              => 'nullable|string',
-            'address'           => 'nullable|string',
-            'state'             => 'nullable|string',
-            'payment_method'    => 'required',
-            'payment_detail'    => 'nullable|string',
+            'card_number' => 'required|unique:customers,card',
+            'name' => 'required',
+            'phone' => 'required|digits:10',
+            'vehicle' => 'nullable|string',
+            'city' => 'nullable|string',
+            'address' => 'nullable|string',
+            'state' => 'nullable|string',
+            'payment_method' => 'required',
+            'payment_detail' => 'nullable|string',
         ]);
 
         $customer = [
-            "card"              => $request->card_number,
-            "name"              => $request->name,
-            "phone"             => $request->phone,
-            "vehicle_number"    => $request->vehicle,
-            "city"              => $request->city,
-            "address"           => $request->address,
-            "state"             => $request->state,
-            "payment_type"      => $request->payment_method,
-            "payment_detail"    => $request->payment_detail,
-            "created_by"        => $request->user()->email
+            "card" => $request->card_number,
+            "name" => $request->name,
+            "phone" => $request->phone,
+            "vehicle_number" => $request->vehicle,
+            "city" => $request->city,
+            "address" => $request->address,
+            "state" => $request->state,
+            "payment_type" => $request->payment_method,
+            "payment_detail" => $request->payment_detail,
+            "created_by" => $request->user()->email
         ];
+
         try {
             $customerData = Customer::create($customer);
 
-            $template = WaTemplate::find(1);
+            $template = WaTemplate::where(['template_id' => 'welcome_srke'])->first();
             $whatsappService = new WhatsAppService();
             $whatsappService->sendNormalText($customerData->phone, $template->template_id);
 
@@ -113,11 +114,11 @@ class CustomerController extends Controller
     public function show(Customer $customer): View
     {
         try {
-            $purchase_history = Purchase::where('customer_id',$customer->id)->latest()->take(50)->get();
-            $reward = Purchase::where('customer_id', '=', $customer->id)->where('isredeem','=',0)->sum('reward');
-            $redeem_history = Redeem::where('customer_id',$customer->id)->get();
+            $purchase_history = Purchase::where('customer_id', $customer->id)->latest()->take(50)->get();
+            $reward = Purchase::where('customer_id', '=', $customer->id)->where('isredeem', '=', 0)->sum('reward');
+            $redeem_history = Redeem::where('customer_id', $customer->id)->get();
 
-            return view('customer.show', ['customer' => $customer,'purchase_history' => $purchase_history,'reward' => $reward,'redeem_history'=>$redeem_history]);
+            return view('customer.show', ['customer' => $customer, 'purchase_history' => $purchase_history, 'reward' => $reward, 'redeem_history' => $redeem_history]);
         } catch (\Exception $e) {
             return view('error.404', ['error' => $e->getMessage()]);
         }
@@ -145,31 +146,31 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Customer $customer) : RedirectResponse
+    public function update(Request $request, Customer $customer): RedirectResponse
     {
         $request->validate([
-            'card_number'       => 'required|unique:customers,card,'. $customer->id,
-            'name'              => 'required',
-            'phone'             => 'required',
-            'vehicle'           => 'nullable|string',
-            'city'              => 'nullable|string',
-            'address'           => 'nullable|string',
-            'state'             => 'nullable|string',
-            'payment_method'    => 'required',
-            'payment_detail'    => 'nullable|string',
+            'card_number' => 'required|unique:customers,card,' . $customer->id,
+            'name' => 'required',
+            'phone' => 'required',
+            'vehicle' => 'nullable|string',
+            'city' => 'nullable|string',
+            'address' => 'nullable|string',
+            'state' => 'nullable|string',
+            'payment_method' => 'required',
+            'payment_detail' => 'nullable|string',
         ]);
 
         $customerUpdate = [
-            "card"              => $request->card_number ?? $customer->card,
-            "name"              => $request->name ?? $customer->name,
-            "phone"             => $request->phone ?? $customer->phone,
-            "vehicle_number"    => $request->vehicle ?? $customer->vehicle_number,
-            "city"              => $request->city ?? $customer->city,
-            "address"           => $request->address ?? $customer->address,
-            "state"             => $request->state ?? $customer->state,
-            "payment_type"      => $request->payment_method ?? $customer->payment_type,
-            "payment_detail"    => $request->payment_detail ?? $customer->payment_detail,
-            "updated_by"        => $request->user()->email
+            "card" => $request->card_number ?? $customer->card,
+            "name" => $request->name ?? $customer->name,
+            "phone" => $request->phone ?? $customer->phone,
+            "vehicle_number" => $request->vehicle ?? $customer->vehicle_number,
+            "city" => $request->city ?? $customer->city,
+            "address" => $request->address ?? $customer->address,
+            "state" => $request->state ?? $customer->state,
+            "payment_type" => $request->payment_method ?? $customer->payment_type,
+            "payment_detail" => $request->payment_detail ?? $customer->payment_detail,
+            "updated_by" => $request->user()->email
         ];
         try {
             $customer->update($customerUpdate);
@@ -185,7 +186,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function delete(Customer $customer) : View
+    public function delete(Customer $customer): View
     {
         try {
             return view('customer.delete', ['customer' => $customer]);
@@ -200,7 +201,7 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,Customer $customer) :RedirectResponse
+    public function destroy(Request $request, Customer $customer): RedirectResponse
     {
         try {
             $customer->update(['deleted_by' => $request->user()->email]);
@@ -215,9 +216,8 @@ class CustomerController extends Controller
     public function export()
     {
         $customersData = [];
-
         $customers = Customer::with('purchases')->get();
-
+        
         foreach ($customers as $customer) {
             $data['id'] = $customer->id;
             $data['Card'] = $customer->card;
@@ -228,14 +228,14 @@ class CustomerController extends Controller
             $data['State'] = $customer->state;
             $data['Created_At'] = Carbon::parse($customer->created_at)->format('d-m-Y');
             $data['VisitCount'] = $customer->purchases->count();
-            $data['LastVisit'] = $customer->purchases->sortByDesc('created_at')->first() ? $customer->purchases->sortByDesc('created_at')->first()->created_at->format('d-m-Y') : 'N/A';
+            $data['LastVisit'] = $customer->purchases->sortByDesc('created_at')->first()
+                ? $customer->purchases->sortByDesc('created_at')->first()->created_at->format('d-m-Y')
+                : 'N/A';
 
             $customersData[] = $data;
         }
 
-        // Sort the data by 'VisitCount' instead of 'Re Visit'
         $customersData = collect($customersData)->sortByDesc('VisitCount')->values()->all();
-
         return (new FastExcel($customersData))->download('customers.xlsx');
     }
 }

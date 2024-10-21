@@ -7,7 +7,7 @@
         <div class="card-header">
             <h3 class="card-title">Messenger</h3>
             <div class="card-tools">
-                <a href="{{ route('messenger.create') }}" class="btn btn-success">Compose</a>
+                <a href="{{ route('message.selection') }}" class="btn btn-success">Compose</a>
             </div>
         </div>
         <div class="card-body">
