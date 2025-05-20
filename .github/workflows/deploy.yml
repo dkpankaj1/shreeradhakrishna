@@ -30,17 +30,16 @@ jobs:
           password: ${{secrets.SSH_PASSWORD}}
           port: ${{ secrets.REMOTE_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script_stop: true
           script: |
             cd domains
             cd srke.co.in
             cd public_html
             git restore .
             git pull origin
-            php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-            php composer-setup.php
-            php -r "unlink('composer-setup.php');"
-            php composer.phar update
-            php -r "unlink('composer.phar');"
+            # php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+            # php composer-setup.php
+            # php -r "unlink('composer-setup.php');"
+            # php composer.phar update
+            # php -r "unlink('composer.phar');"
             php artisan migrate
             php artisan optimize

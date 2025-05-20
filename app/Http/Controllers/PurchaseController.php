@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\Messenger;
 use App\Models\Purchase;
 use App\Models\WaTemplate;
+use App\Services\CunnektApiService;
 use App\Services\WhatsAppService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -101,15 +102,34 @@ class PurchaseController extends Controller
         try {
 
             $customer = Customer::where('id', $request->customer_id)->first();
-            $template = WaTemplate::where('template_id', 'new_purchase1')->first();
             $totalReword = Purchase::where(['customer_id' => $request->customer_id, 'isredeem' => 0])->sum('reward') ?? 0;
-            $waService = new WhatsAppService();
+
+            // $template = WaTemplate::where('template_id', 'new_purchase1')->first();
+            // $waService = new WhatsAppService();
+            // $waService->sendTextWithParams([$customer->phone], $template->template_id, [$customer->name, $totalReword]);
+
+            $cunnekt = new CunnektApiService();
+            $cunnekt->sendTemplateNotification(
+                $customer->phone,
+                '552405187923243',
+                [
+                    'type' => 'body',
+                    'parameters' => [
+                        [
+                            'type' => 'text',
+                            'text' => (string)$customer->name
+                        ],
+                        [
+                            'type' => 'text',
+                            'text' => (string)$totalReword
+                        ]
+                    ]
+                ]
+            );
+
             $msg = new Messenger();
-
-            $waService->sendTextWithParams([$customer->phone], $template->template_id, [$customer->name, $totalReword]);
-
             $msg->customer_id = $customer->id;
-            $msg->wa_template_id = $template->id;
+            $msg->wa_template_id = '1719738662015340';
             $msg->attachment = "";
             $msg->status = 1;
             $msg->save();

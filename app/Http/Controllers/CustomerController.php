@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Purchase;
 use App\Models\Redeem;
 use App\Models\WaTemplate;
+use App\Services\CunnektApiService;
 use App\Services\WhatsAppService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -66,6 +67,7 @@ class CustomerController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $request->validate([
             'card_number' => 'required|unique:customers,card',
             'name' => 'required',
@@ -94,10 +96,13 @@ class CustomerController extends Controller
         try {
             $customerData = Customer::create($customer);
 
-            // $template = WaTemplate::where(['template_id' => 'welcome_srke'])->first();
-             $template = WaTemplate::where(['template_id' => 'new_welcome'])->first();
-            $whatsappService = new WhatsAppService();
-            $whatsappService->sendNormalText($customerData->phone, $template->template_id);
+            // // $template = WaTemplate::where(['template_id' => 'welcome_srke'])->first();
+            // $template = WaTemplate::where(['template_id' => 'new_welcome'])->first();
+            // $whatsappService = new WhatsAppService();
+            // $whatsappService->sendNormalText($customerData->phone, $template->template_id);
+
+            $cunnekt = new CunnektApiService();
+            $cunnekt->sendSimpleNotification($customerData->phone, '1955008095268377');
 
             return redirect()->route('customer.index')->with('success', 'Customer create success!.');
         } catch (\Exception $e) {
@@ -218,7 +223,7 @@ class CustomerController extends Controller
     {
         $customersData = [];
         $customers = Customer::with('purchases')->get();
-        
+
         foreach ($customers as $customer) {
             $data['id'] = $customer->id;
             $data['Card'] = $customer->card;
