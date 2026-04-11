@@ -149,7 +149,7 @@
             </div> <!-- end upper-footer -->
             <div class="copyright-info">
                 <div class="container">
-                    <p>2024 &copy; All Rights Reserved by <a href="#">Shree Radha Krishna Energy</a></p>
+                    <p>{{ \Illuminate\Support\Carbon::now()->format('Y') }} &copy; All Rights Reserved by <a href="#">Shree Radha Krishna Energy</a></p>
                 </div>
             </div>
         </footer>

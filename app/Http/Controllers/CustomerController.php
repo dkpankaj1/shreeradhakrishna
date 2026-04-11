@@ -80,31 +80,25 @@ class CustomerController extends Controller
             'payment_detail' => 'nullable|string',
         ]);
 
-        $customer = [
-            "card" => $request->card_number,
-            "name" => $request->name,
-            "phone" => $request->phone,
-            "vehicle_number" => $request->vehicle,
-            "city" => $request->city,
-            "address" => $request->address,
-            "state" => $request->state,
-            "payment_type" => $request->payment_method,
-            "payment_detail" => $request->payment_detail,
-            "created_by" => $request->user()->email
-        ];
 
         try {
-            $customerData = Customer::create($customer);
-
-            // // $template = WaTemplate::where(['template_id' => 'welcome_srke'])->first();
-            // $template = WaTemplate::where(['template_id' => 'new_welcome'])->first();
-            // $whatsappService = new WhatsAppService();
-            // $whatsappService->sendNormalText($customerData->phone, $template->template_id);
-
-            $cunnekt = new CunnektApiService();
-            $cunnekt->sendSimpleNotification($customerData->phone, '1955008095268377');
-
+            $customer = [
+                "card" => $request->card_number,
+                "name" => $request->name,
+                "phone" => $request->phone,
+                "vehicle_number" => $request->vehicle,
+                "city" => $request->city,
+                "address" => $request->address,
+                "state" => $request->state,
+                "payment_type" => $request->payment_method,
+                "payment_detail" => $request->payment_detail,
+                "created_by" => $request->user()->email
+            ];
+            
+            Customer::create($customer);
+            
             return redirect()->route('customer.index')->with('success', 'Customer create success!.');
+            
         } catch (\Exception $e) {
             return back()->with('danger', $e->getMessage());
         }

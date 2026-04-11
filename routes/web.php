@@ -7,6 +7,7 @@ use App\Http\Controllers\MassageComposerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RedeemController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RewardSettingController;
 use App\Http\Controllers\SendCustomerRewordMsg;
 use App\Http\Controllers\WaTemplateController;
@@ -28,6 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('customer', CustomerController::class);
     Route::get('/customer-export', [CustomerController::class, 'export'])->name('customer.export');
     Route::get('/customer/{customer}/delete', [CustomerController::class, 'delete'])->name('customer.delete');
+    Route::get('/report/inactive-customers', [ReportController::class, 'inactiveCustomers'])
+        ->name('report.inactive-customers');
+    Route::get('/report/inactive-customers/export', [ReportController::class, 'inactiveCustomersExport'])
+        ->name('report.inactive-customers.export');
     Route::resource('/purchase', PurchaseController::class);
     Route::get('/purchase/{purchase}/delete', [PurchaseController::class, 'delete'])->name('purchase.delete');
 

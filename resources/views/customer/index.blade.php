@@ -28,10 +28,9 @@
         </div>
         <!-- /.card-header -->
         <div class="card-body table-responsive">
-            <table class="table table-bordered">
+            <table class="table table-bordered table-sm">
                 <thead>
                     <tr>
-                        <th style="width: 10px">#</th>
                         <th>Card</th>
                         <th>Name</th>
                         <th>Phone</th>
@@ -39,7 +38,7 @@
                         <th>City</th>
                         <th>State</th>
                         <th>Created At</th>
-                        <th>Re Visit</th>
+                        <th>Visit Count</th>
                         <th style="width: 40px">Action</th>
                     </tr>
                 </thead>
@@ -48,7 +47,6 @@
 
                         @foreach ($customers as $customer)
                             <tr>
-                                <td>#</td>
                                 <td>{{ $customer->card }}</td>
                                 <td>{{ $customer->name }}</td>
                                 <td>{{ $customer->phone }}</td>

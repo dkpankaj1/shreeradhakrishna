@@ -35,6 +35,13 @@ Breadcrumbs::for('customer.edit', function ($trail, Customer $customer) {
     $trail->push('Edit', route('customer.edit', $customer));
 });
 
+// Report > inactive customers
+Breadcrumbs::for('report.inactive-customers', function ($trail) {
+    $trail->parent('dashboard');
+    $trail->push('Report', route('report.inactive-customers'));
+    $trail->push('Inactive Customers', route('report.inactive-customers'));
+});
+
 // Purchase
 Breadcrumbs::for('messenger.index', function ($trail) {
     $trail->parent('dashboard');

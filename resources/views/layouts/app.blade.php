@@ -36,8 +36,7 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i
-                            class="fas fa-bars"></i></a>
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
             </ul>
 
@@ -83,11 +82,29 @@
 
                         <!-- Begin::Customer Menu-->
                         <li class="nav-item">
-                            <a href="{{ route('customer.index') }}" class="nav-link">
-                                <i class="nav-icon fas fa-user"></i>
-                                <p>Customer</p>
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Customer
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
                             </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('customer.index') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>All Customer</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="{{ route('customer.create') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Add Customer</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
+
                         <!-- End::Customer Menu-->
 
                         <!-- Begin::Reward Menu-->
@@ -112,6 +129,27 @@
                         <!-- Begin::Report Menu-->
                         <li class="nav-item">
                             <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-chart-bar"></i>
+                                <p>
+                                    Report
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('report.inactive-customers') }}" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Inactive Customer</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- End::Report Menu-->
+
+
+                        <!-- Begin::Report Menu-->
+                        {{-- <li class="nav-item">
+                            <a href="#" class="nav-link">
                                 <i class="fab fa-whatsapp nav-icon"></i>
 
                                 <p>
@@ -134,7 +172,7 @@
                                 </li>
 
                             </ul>
-                        </li>
+                        </li> --}}
                         <!-- End::Report Menu-->
 
 
@@ -230,7 +268,8 @@
                 Anything you want
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2023-2024 <a href="#">Dipankar IT Solution</a>.</strong> All rights
+            <strong>Copyright &copy; 2023-{{ \Illuminate\Support\Carbon::now()->format('Y') }} <a
+                    href="https://dipankaritsolution.com">Dipankar IT Solution</a>.</strong> All rights
             reserved.
         </footer>
     </div>
